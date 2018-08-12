@@ -1,0 +1,40 @@
+<!-- index.html -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+<div id="app">
+  <p>
+    <router-link to="/scooby">Scooby</router-link>
+    <router-link to="/shaggy">Shaggy</router-link>
+  </p>
+  <router-view></router-view>
+</div>
+
+<script>
+const Scooby = {
+  template: `
+    <div>
+      <h4>Scooby</h4>
+      <p>
+        <img src="https://www.wbkidsgo.com/Portals/4/Images/Content/Characters/Scooby/characterArt-scooby-SD.png" alt="scooby"/>
+      </p>
+    </div>`
+}
+
+const Shaggy = {
+  template: `
+    <div class="character">
+        <h4>Shaggy</h4>
+      <p><img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/87/ShaggyRogers.png/150px-ShaggyRogers.png" alt="shaggy"/></p>
+    </div>`
+}
+
+const router = new VueRouter({
+  routes: [
+    { path: '/scooby', component: Scooby },
+    { path: '/shaggy', component: Shaggy }
+  ]
+})
+
+const app = new Vue({ router: router }).$mount('#app')
+</script>
