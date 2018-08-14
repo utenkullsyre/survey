@@ -1,6 +1,6 @@
 from flask import request
 from flask_restful import Resource
-from Model import db, User, UserSchema
+from Model import db, User, UserSchema, RevokedTokenModel
 from flask import current_app
 from functools import wraps
 from datetime import datetime, timedelta
@@ -30,4 +30,25 @@ class TokenRefresh(Resource):
         new_token = create_access_token(identity=current_user, fresh=False)
         return {'access_token': new_token}, 200
 
-class LogoutResource(Resource):
+class UserLogoutAccess(Resource):
+    @jwt_required
+    def post(self):
+        jti = get_raw_jwt()['jti']
+        try:
+            revoked_token = RevokedTokenModel(jti = jti)
+            revoked_token.add()
+            return {'message': 'Access token has been revoked'}
+        except:
+            return {'message': 'Something went wrong'}, 500
+
+
+class UserLogoutRefresh(Resource):
+    @jwt_refresh_token_required
+    def post(self):
+        jti = get_raw_jwt()['jti']
+        try:
+            revoked_token = RevokedTokenModel(jti = jti)
+            revoked_token.add()
+            return {'message': 'Refresh token has been revoked'}
+        except:
+            return {'message': 'Something went wrong'}, 500

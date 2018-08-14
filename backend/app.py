@@ -4,7 +4,7 @@ from resources.Hello import Hello
 from resources.Category import CategoryResource
 from resources.Comment import CommentResource
 from resources.User import UserResource
-from resources.Login import LoginResource, TokenRefresh
+from resources.Login import LoginResource, TokenRefresh, UserLogoutAccess, UserLogoutRefresh
 
 
 
@@ -19,3 +19,5 @@ api.add_resource(CommentResource, '/comment')
 api.add_resource(UserResource, '/user')
 api.add_resource(LoginResource, '/login')
 api.add_resource(TokenRefresh, '/refresh')
+api.add_resource(UserLogoutAccess, '/logout')
+api.add_resource(UserLogoutRefresh, '/logout2')

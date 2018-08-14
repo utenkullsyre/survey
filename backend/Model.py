@@ -64,6 +64,26 @@ class User(db.Model):
     def to_dict(self):
         return dict(id=self.id, email=self.email)
 
+class RevokedTokenModel(db.Model):
+    __tablename__ = 'revoked_tokens'
+    id = db.Column(db.Integer, primary_key = True)
+    jti = db.Column(db.String(120))
+
+    def __init__(self, jti):
+        self.jti = jti
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def is_jti_blacklisted(cls, jti):
+        query = cls.query.filter_by(jti = jti).first()
+        return bool(query)
+
+class RevokedTokenSchema(ma.Schema):
+    jti = fields.String()
+
 class UserSchema(ma.Schema):
     email = fields.String()
     password = fields.String()
